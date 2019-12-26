@@ -2,7 +2,7 @@
 layout: post
 title: 苹果app申请IPV6不能访问解决方案
 date: 2019-12-26 00:00:00 +0300
-description:  苹果应用审核IPV6无法访问通过 # Add post description (optional)
+description: 苹果应用审核IPV6无法访问通过 # Add post description (optional)
 img: how-to-start.jpg # Add image post (optional)
 tags: [apple, Appstore, reject, nginx] # add tag
 ---
