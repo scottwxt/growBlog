@@ -151,8 +151,7 @@ ifconfig
 2. tb-tun的安装包太难找了，请注意备份；
 3. 审核需要用到的阿里云服务器必须要用ipv6支持脚本跑一次，这一步骤已经集成在服务器初始化中去了；
 4. nginx版本一定要支持ipv6，否则无法接受ipv6协议的请求；
-5. 由于以上的做法也属于翻墙，要考虑国家政策，选择vps厂商要尽量稳定；
-<br>
+5. 由于以上的做法也属于翻墙，要考虑国家政策，选择vps厂商要尽量稳定;
 
 ## 参考链接
 1. [认识ipv6和app审核访问机制](http://www.solve6.com).
@@ -160,3 +159,6 @@ ifconfig
 3. [Nginx代理转发配置](http://blog.csdn.net/faye0412/article/details/75200607)
 4. [Aliyun服务器配置支持ipv6](https://blog.csdn.net/EI__Nino/article/details/71331717).
 5. [配置tunnelbroker.net的IPv6](https://qiaodahai.com/openvz-virtual-machine-configuration-ipv6-with-tunnelbroker-net.html).
+
+## 说明
+如有侵权，请联系本人删除<wxtdev@gmail.com>
