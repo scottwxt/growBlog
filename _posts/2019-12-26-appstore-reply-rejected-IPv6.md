@@ -48,6 +48,7 @@ tags: [apple, Appstore, reject, nginx] # add tag
  
 ## 编译安装Nginx
 在vps创建构建目录，从运维控制机器上把Nginx安装包传输过来，并编译并安装nginx，需要注意编译参数.
+![nginx参数]({{site.baseurl}}/assets/img/apple-reject-ipv6/nginx_build.png)
 ```
 mkdir /data
 cd /data/
@@ -60,14 +61,15 @@ Make && make install
 ```
 ## 配置nginx代理转发配置
 Nginx负责将App store的请求转发给国内服务器，所以国内web服务器配置地址和https证书也要配置。
- 
+![nginx配置]({{site.baseurl}}/assets/img/apple-reject-ipv6/nginx_config.png)
+
 ## 申请ipv6代理隧道
 刚才我们相当于把nginx环境搭建起来，但是还没有配置ipv6地址，vps官网此服务器的ipv6地址目前测试不可用，需要借助第三方走ipv6代理隧道。
 申请ipv6地址网站：https://tunnelbroker.net/
 申请方法和配置方法请参考 https://blog.csdn.net/EI__Nino/article/details/71331717文章中
 IPv6隧道配置。
-申请ipv6隧道成功如下图所示：
- 
+申请ipv6隧道成功如下图所示:
+![IPV6配置]({{site.baseurl}}/assets/img/apple-reject-ipv6/tb_tun.png)
 申请完成后，我们会有一个ipv6地址2001:470:1f06:ac8::2，确认申请了IPv6隧道服务并按照上述模板进行配置完成后，请检查防火墙（iptables）是否放行了6in4协议，并确认(/etc/sysctl.conf)中IPv6转发已打开。
 ## 绑定ipv6域名
 打开DNS解析网站,添加AAAA记录解决，把上面的ipv6地址添加上去。
@@ -132,6 +134,7 @@ service ipv6hetb start
 ifconfig
 ```
 如果配置正确，会有下图红色框信息产生。
+![ifconfig命令输出]({{site.baseurl}}/assets/img/apple-reject-ipv6/ifconfig.png)
  <br>
 
 ## 使用ipv6网站测试
