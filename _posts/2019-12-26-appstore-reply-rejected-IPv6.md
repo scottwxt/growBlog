@@ -50,7 +50,7 @@ tags: [apple, Appstore, reject, nginx] # add tag
  
 ## 编译安装Nginx
 在vps创建构建目录，从运维控制机器上把Nginx安装包传输过来，并编译并安装nginx，需要注意编译参数.
-```bash
+```
 mkdir /data
 cd /data/
 mkdir www
@@ -87,12 +87,13 @@ mv tb_userspace /usr/bin/
 chmod a+x /usr/bin/tb_userspace
 5.	Vim编辑/etc/init.d/ipv6hetb文件，如果没有就把下列的内容复制进去，将下图的红色框框的信息换成申请的ipv6协议页面的信息。
 #这是一段高度简化的配置流程的代码，网站已经很难找得到了，直接复制不要手打。
-```bash
+
+```
 #!/bin/bash
 touch /var/lock/ipv6hetb
 #Variables
-SERVER_IP4_ADDR="209.51.161.14" #Server IP From Hurricane Electric
-CLIENT_IP4_ADDR="23.106.142.19" #Your server IPv4 Address
+SERVER_IP4_ADDR="" #Server IP From Hurricane Electric
+CLIENT_IP4_ADDR="" #Your server IPv4 Address
 CLIENT_IP6_ADDR="2001:470:1f06:ac8::2/64" #Client IPv6 Address from Hurricane Electric
 ROUTED_IP6_ADDR="2001:470:1f06:ac8::1/64" #Your Routed IPv6 From Hurricane Electric
 case "$1" in
@@ -121,11 +122,19 @@ esac
 exit 0
 ```
 ## 授权
+```
 chmod a+x /etc/init.d/ipv6hetb
+```
+
 ## 启动服务器
+```
 service ipv6hetb start
-##	使用ifconfig命令进行网卡信息输出
+```
+
+```
+#使用ifconfig命令进行网卡信息输出
 ifconfig
+```
 如果配置正确，会有下图红色框信息产生。
  
 ## 使用ipv6网站测试
@@ -133,7 +142,7 @@ ifconfig
 打开网站后，找到Website，在输入网址框输入测试网址,查看是否各项结构是否正常，这里省略掉。
  
 ## 服务器测试
-服务器nginx的access.log也会打印测试信息，请自行查看
+服务器nginx的access.log也会打印测试信息，请自行查看.
 
 ## 注意事项
 1. 购买海外VPS不允许安装翻墙软件，以免被强；
