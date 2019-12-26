@@ -50,7 +50,7 @@ tags: [apple, Appstore, reject, nginx] # add tag
 ## 编译安装Nginx
 在vps创建构建目录，从运维控制机器上把Nginx安装包传输过来，并编译并安装nginx，需要注意编译参数.
 ![nginx参数]({{site.baseurl}}/assets/img/apple-reject-ipv6/nginx_build.png)
-```
+{% highlight bash %}
 mkdir /data
 cd /data/
 mkdir www
@@ -59,7 +59,8 @@ tar -zxvf nginx-1.10.0.tar.gz
 cd  nginx-1.10.0
 ./configure --user=www --group=www --prefix=/usr/local/nginx   --with-http_stub_status_module   --with-http_ssl_module   --with-http_v2_module   --with-http_gzip_static_module  --with-ipv6   --with-http_sub_module
 Make && make install
-```
+{% endhighlight %}
+
 ## 配置nginx代理转发配置
 Nginx负责将App store的请求转发给国内服务器，所以国内web服务器配置地址和https证书也要配置。
 ![nginx配置]({{site.baseurl}}/assets/img/apple-reject-ipv6/nginx_config.jpg)
