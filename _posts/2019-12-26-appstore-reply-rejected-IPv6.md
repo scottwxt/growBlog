@@ -61,7 +61,7 @@ Make && make install
 ```
 ## 配置nginx代理转发配置
 Nginx负责将App store的请求转发给国内服务器，所以国内web服务器配置地址和https证书也要配置。
-![nginx配置]({{site.baseurl}}/assets/img/apple-reject-ipv6/nginx_config.png)
+![nginx配置]({{site.baseurl}}/assets/img/apple-reject-ipv6/nginx_config.jpg)
 
 ## 申请ipv6代理隧道
 刚才我们相当于把nginx环境搭建起来，但是还没有配置ipv6地址，vps官网此服务器的ipv6地址目前测试不可用，需要借助第三方走ipv6代理隧道。
