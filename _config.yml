@@ -35,3 +35,7 @@ paginate: 8
 paginate_path: "/page/:num"
 
 exclude: ["node_modules", "gulpfile.js", "package.json", "yarn.lock"]
+
+repository:  https://scottwxt.github.io
+github_url: https://github.com/scottwxt
+url: https://blog.ctolang.com
