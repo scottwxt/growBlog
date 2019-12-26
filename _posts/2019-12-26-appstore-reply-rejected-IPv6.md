@@ -2,7 +2,7 @@
 layout: post
 title: 苹果app申请IPV6不能访问解决方案
 date: 2019-12-26 00:00:00 +0300
-description:  # Add post description (optional)
+description:  苹果应用审核IPV6无法访问通过 # Add post description (optional)
 img: how-to-start.jpg # Add image post (optional)
 tags: [apple, Appstore, reject, nginx] # add tag
 ---
@@ -16,7 +16,7 @@ tags: [apple, Appstore, reject, nginx] # add tag
 ## 访问机制和App被拒主要原因
 苹果AppStore审核员在美国的IPv6-Only环境下对APP进行访问（审核），如果APP Server支持IPv6，则可直接访问；如果APP Server不支持IPv6，
 则通过DNS64 +NAT64进行访问；很明显，大部分开发者的APP服务器都是不支持IPv6直接访问的，所以基本是用NAT64+DNS64进行访问的。那么我们就先了解NAT64+DNS64的访问机制吧，直接看图：
-![NAT64+DNS64的访问机制]({{site.baseurl}}/assets/apple-reject-ipv6/dns64_nat64.png)
+![NAT64+DNS64的访问机制]({{site.baseurl}}/assets/img/apple-reject-ipv6/dns64_nat64.png)
 
 从这里看出审核的关键在于能不能获取一个有效的Server IPv6地址。当苹果公司的APP审核员在进行审核时，由于国内大部分开发者的APPserver没有IPv6地址，只能通过苹果公司自己的NAT64+DNS64服务器进行测试，而最关键的是苹果的服务器不能有效的给APPserver返回一个IPv6地址，这就导致了审核失败，APP被拒。
 
@@ -28,12 +28,12 @@ tags: [apple, Appstore, reject, nginx] # add tag
 ## 解决思路
 就目前国内的现状，能够提供这种服务的当属教育网了，中国教育网坐拥全国几百所高校，拥有真实的IPv6骨干网络，国际出口，IPv6资源丰富，服务质量好。
 既然审核被拒是因为IPV6，那么我们就让服务器支持就可以了，但是很多运营商的服务器不提供IPv6地址，这样的话就要使用IPv6隧道技术,通过建立隧道使自己的服务器通过IPv6隧道来支持IPv6,方案示意图如下：
-![支持IPv6]({{site.baseurl}}/assets/apple-reject-ipv6/ipv6_deploy.png)
+![支持IPv6]({{site.baseurl}}/assets/img/apple-reject-ipv6/ipv6_deploy.png)
 
-使用IPv6隧道服务APP服务器必须满足三个条件：
-① 服务器拥有公网IPv4地址
-② 服务器支持IPv6协议
-③ 服务器放行6in4协议
+    使用IPv6隧道服务APP服务器必须满足三个条件：
+    ① 服务器拥有公网IPv4地址
+    ② 服务器支持IPv6协议
+    ③ 服务器放行6in4协议
 
 ## 准备材料
 	一台海外vps，支持nginx ipv6版本安装包，tunnelbroker ipv6隧道申请
