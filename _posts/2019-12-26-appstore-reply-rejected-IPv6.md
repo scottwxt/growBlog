@@ -87,6 +87,8 @@ mv tb_userspace /usr/bin/
 chmod a+x /usr/bin/tb_userspace
 ```
 5.Vim编辑/etc/init.d/ipv6hetb文件，如果没有就把下列的内容复制进去，将下图的红色框框的信息换成申请的ipv6协议页面的信息。
+<br>
+
 ```
 #!/bin/bash
 #这是一段高度简化的配置流程的代码，网站已经很难找得到了，直接复制不要手打。
@@ -121,7 +123,7 @@ stop)
 esac
 exit 0
 ```
-<br>
+
 ## 授权
 ```
 chmod a+x /etc/init.d/ipv6hetb
@@ -154,9 +156,8 @@ ifconfig
 <br>
 
 ## 参考链接
-认识ipv6和app审核访问机制 http://www.solve6.com/  
-https://bbs.aliyun.com/read/299254.html  海外节点配置ipv6地址，搭建思路
-http://blog.csdn.net/faye0412/article/details/75200607  Nginx代理转发配置
-https://blog.csdn.net/EI__Nino/article/details/71331717 Aliyun服务器配置支持ipv6
-https://qiaodahai.com/openvz-virtual-machine-configuration-ipv6-with-tunnelbroker-net.html 
-配置tunnelbroker.net的IPv6
+认识ipv6和app审核访问机制: http://www.solve6.com/  
+节点配置ipv6地址，搭建思路: https://bbs.aliyun.com/read/299254.html  海外
+Nginx代理转发配置: http://blog.csdn.net/faye0412/article/details/75200607  
+Aliyun服务器配置支持ipv6: https://blog.csdn.net/EI__Nino/article/details/71331717 
+配置tunnelbroker.net的IPv6: https://qiaodahai.com/openvz-virtual-machine-configuration-ipv6-with-tunnelbroker-net.html 
