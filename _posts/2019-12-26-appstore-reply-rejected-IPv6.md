@@ -77,19 +77,23 @@ IPv6隧道配置。
 	 
 ## 安装ipv6转发软件
     添加ipv6解析了，环境搭建好了，你以为就能访问了吗？少年你真是天真了。我们还差一个类似需要ipv6协议转发器。
-1.	下载tb-tun_r14.tar.gz，这个估计要绝种了，我记得当时我在github上找打的，具体网址不记得，目前在23.106.142.19上服务器有这个安装包，拷贝着用吧。
-2.	解压tar zxf tb-tun_r14.tar.gz到某一目录
-3.	编译tb-tun
+1.下载tb-tun_r14.tar.gz，这个估计要绝种了，我记得当时我在github上找打的，具体网址不记得，目前在23.106.142.19上服务器有这个安装包，拷贝着用吧。
+2.解压tar zxf tb-tun_r14.tar.gz到某一目录
+
+3.编译tb-tun
+```
 gcc tb_userspace.c -l pthread -o tb_userspace
+```
+
 这一步编译将会生成tb_userspace二进制文件
-4.	移动tb_userspace到/usr/bin/，授权
+4.移动tb_userspace到/usr/bin/，授权
 mv tb_userspace /usr/bin/
 chmod a+x /usr/bin/tb_userspace
 5.	Vim编辑/etc/init.d/ipv6hetb文件，如果没有就把下列的内容复制进去，将下图的红色框框的信息换成申请的ipv6协议页面的信息。
-#这是一段高度简化的配置流程的代码，网站已经很难找得到了，直接复制不要手打。
 
 ```
 #!/bin/bash
+#这是一段高度简化的配置流程的代码，网站已经很难找得到了，直接复制不要手打。
 touch /var/lock/ipv6hetb
 #Variables
 SERVER_IP4_ADDR="" #Server IP From Hurricane Electric
@@ -121,28 +125,32 @@ case "$1" in
 esac
 exit 0
 ```
+<br>
 ## 授权
 ```
 chmod a+x /etc/init.d/ipv6hetb
 ```
-
+<br>
 ## 启动服务器
 ```
 service ipv6hetb start
 ```
-
+<br>
 ```
 #使用ifconfig命令进行网卡信息输出
 ifconfig
 ```
 如果配置正确，会有下图红色框信息产生。
- 
+ <br>
+
 ## 使用ipv6网站测试
 测试网站：http://ipv6-test.com/
 打开网站后，找到Website，在输入网址框输入测试网址,查看是否各项结构是否正常，这里省略掉。
- 
+ <br>
+
 ## 服务器测试
 服务器nginx的access.log也会打印测试信息，请自行查看.
+<br>
 
 ## 注意事项
 1. 购买海外VPS不允许安装翻墙软件，以免被强；
@@ -150,6 +158,7 @@ ifconfig
 3. 审核需要用到的阿里云服务器必须要用ipv6支持脚本跑一次，这一步骤已经集成在服务器初始化中去了；
 4. nginx版本一定要支持ipv6，否则无法接受ipv6协议的请求；
 5. 由于以上的做法也属于翻墙，要考虑国家政策，选择vps厂商要尽量稳定；
+<br>
 
 ## 参考链接
 认识ipv6和app审核访问机制 http://www.solve6.com/  
