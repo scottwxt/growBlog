@@ -2,7 +2,7 @@
 layout: post
 title: svn install problem collection
 date: 2017-09-12 13:32:20 +0300
-description: svn install problem collection # Add post description (optional)
+description: svn安装过程中出现的问题 # Add post description (optional)
 img: i-rest.jpg # Add image post (optional)
 fig-caption: # Add figcaption (optional)
 tags: [svr, install]
