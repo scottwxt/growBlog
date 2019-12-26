@@ -6,6 +6,7 @@ description: 我们要想把自己开发出来放到App Store或者Google Play�
 img: appstore_reject.jpg # Add image post (optional)
 tags: [apple, Appstore, reject, nginx] # add tag
 ---
+我们要想把自己开发出来放到App Store或者Google Play上供玩家下载，中间还有一个非常的重要的步骤：app审核
 
 ## 前言
 我们要想把自己开发出来放到App Store或者Google Play上供玩家下载，中间还有一个非常的重要的步骤：app审核。
