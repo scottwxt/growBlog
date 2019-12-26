@@ -76,20 +76,18 @@ IPv6隧道配置。
     打开DNS解析网站,添加AAAA记录解决，把上面的ipv6地址添加上去。
 	 
 ## 安装ipv6转发软件
-    添加ipv6解析了，环境搭建好了，你以为就能访问了吗？少年你真是天真了。我们还差一个类似需要ipv6协议转发器。
-1.下载tb-tun_r14.tar.gz，这个估计要绝种了，我记得当时我在github上找打的，具体网址不记得，目前在23.106.142.19上服务器有这个安装包，拷贝着用吧。
-2.解压tar zxf tb-tun_r14.tar.gz到某一目录
-
-3.编译tb-tun
-```
-gcc tb_userspace.c -l pthread -o tb_userspace
-```
-
-这一步编译将会生成tb_userspace二进制文件
-4.移动tb_userspace到/usr/bin/，授权
-mv tb_userspace /usr/bin/
-chmod a+x /usr/bin/tb_userspace
-5.	Vim编辑/etc/init.d/ipv6hetb文件，如果没有就把下列的内容复制进去，将下图的红色框框的信息换成申请的ipv6协议页面的信息。
+添加ipv6解析了，环境搭建好了，你以为就能访问了吗？少年你真是天真了。我们还差一个类似需要ipv6协议转发器。
+    1.下载tb-tun_r14.tar.gz，这个估计要绝种了，我记得当时我在github上找打的，具体网址不记得了。
+    2.解压tar zxf tb-tun_r14.tar.gz到某一目录
+    3.编译tb-tun
+    ```
+    gcc tb_userspace.c -l pthread -o tb_userspace
+    ```
+    这一步编译将会生成tb_userspace二进制文件
+    4.移动tb_userspace到/usr/bin/，授权
+    mv tb_userspace /usr/bin/
+    chmod a+x /usr/bin/tb_userspace
+    5.Vim编辑/etc/init.d/ipv6hetb文件，如果没有就把下列的内容复制进去，将下图的红色框框的信息换成申请的ipv6协议页面的信息。
 
 ```
 #!/bin/bash
