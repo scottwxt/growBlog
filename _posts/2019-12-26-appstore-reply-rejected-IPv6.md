@@ -3,7 +3,7 @@ layout: post
 title: 苹果app申请IPV6不能访问解决方案
 date: 2019-12-26 00:00:00 +0300
 description: 我们要想把自己开发出来放到App Store或者Google Play上供玩家下载，中间还有一个非常的重要的步骤：app审核 # Add post description (optional)
-img: how-to-start.jpg # Add image post (optional)
+img: appstore_reject.jpg # Add image post (optional)
 tags: [apple, Appstore, reject, nginx] # add tag
 ---
 
