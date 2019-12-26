@@ -74,19 +74,17 @@ IPv6隧道配置。
 	 
 ## 安装ipv6转发软件
 添加ipv6解析了，环境搭建好了，你以为就能访问了吗？少年你真是天真了。我们还差一个类似需要ipv6协议转发器。
-1.下载https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/tb-tun/tb-tun_r18.tar.gz
-2.解压tar zxf tb-tun_r18.tar.gz
-3.编译tb-tun
 ```
-gcc tb_userspace.c -l pthread -o tb_userspace
-```
-这一步编译将会生成tb_userspace二进制文件。
-4.移动tb_userspace到/usr/bin/，授权
-```
+#下载tb(用于建立隧道,需翻墙)
+wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/tb-tun/tb-tun_r18.tar.gz
+tar zxf tb-tun_r18.tar.gz #解压
+gcc tb_userspace.c -l pthread -o tb_userspace #编译tb-tun
+#移动tb_userspace到/usr/bin/，授权
 mv tb_userspace /usr/bin/
 chmod a+x /usr/bin/tb_userspace
 ```
-5.Vim编辑/etc/init.d/ipv6hetb文件，如果没有就把下列的内容复制进去，将下图的红色框框的信息换成申请的ipv6协议页面的信息。
+Vim编辑/etc/init.d/ipv6hetb文件，如果没有就把下列的内容复制进去，将下图的红色框框的信息换成申请的ipv6协议页面的信息。
+
 ```
 #!/bin/bash
 #这是一段高度简化的配置流程的代码，网站已经很难找得到了，直接复制不要手打。
