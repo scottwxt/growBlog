@@ -2,7 +2,7 @@
 layout: post
 title: 苹果app申请IPV6不能访问解决方案
 date: 2019-12-26 00:00:00 +0300
-description:  # Add post description (optional)
+description:  苹果应用审核IPV6无法访问通过 # Add post description (optional)
 img: how-to-start.jpg # Add image post (optional)
 tags: [apple, Appstore, reject, nginx] # add tag
 ---
@@ -16,7 +16,7 @@ tags: [apple, Appstore, reject, nginx] # add tag
 ## 访问机制和App被拒主要原因
 苹果AppStore审核员在美国的IPv6-Only环境下对APP进行访问（审核），如果APP Server支持IPv6，则可直接访问；如果APP Server不支持IPv6，
 则通过DNS64 +NAT64进行访问；很明显，大部分开发者的APP服务器都是不支持IPv6直接访问的，所以基本是用NAT64+DNS64进行访问的。那么我们就先了解NAT64+DNS64的访问机制吧，直接看图：
-![NAT64+DNS64的访问机制]({{site.baseurl}}/assets/apple-reject-ipv6/dns64_nat64.png)
+![NAT64+DNS64的访问机制]({{site.baseurl}}/assets/img/apple-reject-ipv6/dns64_nat64.png)
 
 从这里看出审核的关键在于能不能获取一个有效的Server IPv6地址。当苹果公司的APP审核员在进行审核时，由于国内大部分开发者的APPserver没有IPv6地址，只能通过苹果公司自己的NAT64+DNS64服务器进行测试，而最关键的是苹果的服务器不能有效的给APPserver返回一个IPv6地址，这就导致了审核失败，APP被拒。
 
@@ -28,15 +28,14 @@ tags: [apple, Appstore, reject, nginx] # add tag
 ## 解决思路
 就目前国内的现状，能够提供这种服务的当属教育网了，中国教育网坐拥全国几百所高校，拥有真实的IPv6骨干网络，国际出口，IPv6资源丰富，服务质量好。
 既然审核被拒是因为IPV6，那么我们就让服务器支持就可以了，但是很多运营商的服务器不提供IPv6地址，这样的话就要使用IPv6隧道技术,通过建立隧道使自己的服务器通过IPv6隧道来支持IPv6,方案示意图如下：
-![支持IPv6]({{site.baseurl}}/assets/apple-reject-ipv6/ipv6_deploy.png)
-
-使用IPv6隧道服务APP服务器必须满足三个条件：
-① 服务器拥有公网IPv4地址
-② 服务器支持IPv6协议
-③ 服务器放行6in4协议
+![支持IPv6]({{site.baseurl}}/assets/img/apple-reject-ipv6/ipv6_deploy.png)
+    使用IPv6隧道服务APP服务器必须满足三个条件：
+    ① 服务器拥有公网IPv4地址
+    ② 服务器支持IPv6协议
+    ③ 服务器放行6in4协议
 
 ## 准备材料
-	一台海外vps，支持nginx ipv6版本安装包，tunnelbroker ipv6隧道申请
+    一台海外vps，支持nginx ipv6版本安装包，tunnelbroker ipv6隧道申请
 
 ### 审核服游戏服务器支持ipv6协议
 使用ipv6一键支持脚本让审核服支持ipv6，脚本放在运维控制机器上，目录为/data/svr
@@ -49,21 +48,22 @@ tags: [apple, Appstore, reject, nginx] # add tag
 这里选择的老牌vps产商搬网工，官方网址为https://www.bwh1.net，注册和登陆请按照英文官网来就好，注册请按照真实信息填写，否则可能不会通过。注册的时候必须要支持google翻墙，否则验证码刷新不出来哦，选配置机型请选择OVZ类型，此类型支持ipv6，不过并不可用，下面会介绍相应的解决方案。
  
 ## 编译安装Nginx
-在vps创建构建目录，从运维控制机器上把Nginx安装包传输过来，并编译并安装nginx
+在vps创建构建目录，从运维控制机器上把Nginx安装包传输过来，并编译并安装nginx，需要注意编译参数.
+```bash
 mkdir /data
 cd /data/
 mkdir www
 scp root@ip:/data/svr/playbooks/public/install/nginx-1.10.0.tar.gz .
 tar -zxvf nginx-1.10.0.tar.gz
 cd  nginx-1.10.0
-编译参数：
-./configure --user=www   --group=www   --prefix=/usr/local/nginx   --with-http_stub_status_module   --with-http_ssl_module   --with-http_v2_module   --with-http_gzip_static_module   --with-ipv6   --with-http_sub_module
+./configure --user=www\
+--group=www --prefix=/usr/local/nginx   --with-http_stub_status_module   --with-http_ssl_module   --with-http_v2_module   --with-http_gzip_static_module   --with-ipv6   --with-http_sub_module
 Make && make install
-	
-### 配置nginx代理转发配置
+```
+## 配置nginx代理转发配置
 Nginx负责将App store的请求转发给国内服务器，所以国内web服务器配置地址和https证书也要配置。
  
-### 申请ipv6代理隧道
+## 申请ipv6代理隧道
 刚才我们相当于把nginx环境搭建起来，但是还没有配置ipv6地址，vps官网此服务器的ipv6地址目前测试不可用，需要借助第三方走ipv6代理隧道。
 申请ipv6地址网站：https://tunnelbroker.net/
 申请方法和配置方法请参考 https://blog.csdn.net/EI__Nino/article/details/71331717文章中
@@ -71,11 +71,11 @@ IPv6隧道配置。
 申请ipv6隧道成功如下图所示：
  
 申请完成后，我们会有一个ipv6地址2001:470:1f06:ac8::2，确认申请了IPv6隧道服务并按照上述模板进行配置完成后，请检查防火墙（iptables）是否放行了6in4协议，并确认(/etc/sysctl.conf)中IPv6转发已打开。
-14.5.7	绑定ipv6域名
-打开阿里云网站管理账号，找到云解析
+## 绑定ipv6域名
+    打开DNS解析网站,添加AAAA记录解决，把上面的ipv6地址添加上去。
 	 
-### 安装ipv6转发软件
-添加ipv6解析了，环境搭建好了，你以为就能访问了吗？少年你真是天真了。我们还差一个类似需要ipv6协议转发器。
+## 安装ipv6转发软件
+    添加ipv6解析了，环境搭建好了，你以为就能访问了吗？少年你真是天真了。我们还差一个类似需要ipv6协议转发器。
 1.	下载tb-tun_r14.tar.gz，这个估计要绝种了，我记得当时我在github上找打的，具体网址不记得，目前在23.106.142.19上服务器有这个安装包，拷贝着用吧。
 2.	解压tar zxf tb-tun_r14.tar.gz到某一目录
 3.	编译tb-tun
@@ -85,7 +85,8 @@ gcc tb_userspace.c -l pthread -o tb_userspace
 mv tb_userspace /usr/bin/
 chmod a+x /usr/bin/tb_userspace
 5.	Vim编辑/etc/init.d/ipv6hetb文件，如果没有就把下列的内容复制进去，将下图的红色框框的信息换成申请的ipv6协议页面的信息。
-#这是一段高度简化的配置流程的代码，网站已经很难找得到了，直接复制不要手打
+#这是一段高度简化的配置流程的代码，网站已经很难找得到了，直接复制不要手打。
+```bash
 #!/bin/bash
 touch /var/lock/ipv6hetb
 #Variables
@@ -116,32 +117,31 @@ case "$1" in
     exit 1
     ;;
 esac
-
 exit 0
- 
-### 授权
+```
+## 授权
 chmod a+x /etc/init.d/ipv6hetb
-### 启动服务器
+## 启动服务器
 service ipv6hetb start
-###	使用ifconfig命令进行网卡信息输出
+##	使用ifconfig命令进行网卡信息输出
 ifconfig
 如果配置正确，会有下图红色框信息产生。
  
-### 使用ipv6网站测试
+## 使用ipv6网站测试
 测试网站：http://ipv6-test.com/
 打开网站后，找到Website，在输入网址框输入测试网址,查看是否各项结构是否正常，这里省略掉。
  
-### 服务器测试
+## 服务器测试
 服务器nginx的access.log也会打印测试信息，请自行查看
 
-### 注意事项
+## 注意事项
 1. 购买海外VPS不允许安装翻墙软件，以免被强；
 2. tb-tun的安装包太难找了，请注意备份；
 3. 审核需要用到的阿里云服务器必须要用ipv6支持脚本跑一次，这一步骤已经集成在服务器初始化中去了；
 4. nginx版本一定要支持ipv6，否则无法接受ipv6协议的请求；
 5. 由于以上的做法也属于翻墙，要考虑国家政策，选择vps厂商要尽量稳定；
 
-### 参考链接
+## 参考链接
 认识ipv6和app审核访问机制 http://www.solve6.com/  
 https://bbs.aliyun.com/read/299254.html  海外节点配置ipv6地址，搭建思路
 http://blog.csdn.net/faye0412/article/details/75200607  Nginx代理转发配置
