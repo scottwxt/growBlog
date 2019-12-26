@@ -74,53 +74,53 @@ IPv6隧道配置。
 	 
 ## 安装ipv6转发软件
 添加ipv6解析了，环境搭建好了，你以为就能访问了吗？少年你真是天真了。我们还差一个类似需要ipv6协议转发器。
-    1.下载https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/tb-tun/tb-tun_r18.tar.gz
-    2.解压tar zxf tb-tun_r18.tar.gz
-    3.编译tb-tun
+1.下载https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/tb-tun/tb-tun_r18.tar.gz
+2.解压tar zxf tb-tun_r18.tar.gz
+3.编译tb-tun
+```
+gcc tb_userspace.c -l pthread -o tb_userspace
+```
+这一步编译将会生成tb_userspace二进制文件。
+4.移动tb_userspace到/usr/bin/，授权
     ```
-    gcc tb_userspace.c -l pthread -o tb_userspace
-    ```
-    这一步编译将会生成tb_userspace二进制文件。
-    4.移动tb_userspace到/usr/bin/，授权
-     ```
-    mv tb_userspace /usr/bin/
-    chmod a+x /usr/bin/tb_userspace
-    ```
-    5.Vim编辑/etc/init.d/ipv6hetb文件，如果没有就把下列的内容复制进去，将下图的红色框框的信息换成申请的ipv6协议页面的信息。
-    ```
-    #!/bin/bash
-    #这是一段高度简化的配置流程的代码，网站已经很难找得到了，直接复制不要手打。
-    touch /var/lock/ipv6hetb
-    #Variables
-    SERVER_IP4_ADDR="" #Server IP From Hurricane Electric
-    CLIENT_IP4_ADDR="" #Your server IPv4 Address
-    CLIENT_IP6_ADDR="2001:470:1f06:ac8::2/64" #Client IPv6 Address from Hurricane Electric
-    ROUTED_IP6_ADDR="2001:470:1f06:ac8::1/64" #Your Routed IPv6 From Hurricane Electric
-    case "$1" in
-    start)
-        echo "Starting ipv6hetb "
-        setsid tb_userspace tb $SERVER_IP4_ADDR $CLIENT_IP4_ADDR sit > /dev/null 2>&1 &
-        sleep 3s
-        ifconfig tb up
-        ifconfig tb inet6 add $CLIENT_IP6_ADDR
-        ifconfig tb inet6 add $ROUTED_IP6_ADDR
-        ifconfig tb mtu 1480
-        route -A inet6 add ::/0 dev tb
-        route -A inet6 del ::/0 dev venet0
-        ;;
-    stop)
-        echo "Stopping ipv6hetb"
-        ifconfig tb down
-        route -A inet6 del ::/0 dev tb
-        killall tb_userspace
-        ;;
-    *)
-        echo "Usage: /etc/init.d/ipv6hetb {start|stop}"
-        exit 1
-        ;;
-    esac
-    exit 0
-    ```
+mv tb_userspace /usr/bin/
+chmod a+x /usr/bin/tb_userspace
+```
+5.Vim编辑/etc/init.d/ipv6hetb文件，如果没有就把下列的内容复制进去，将下图的红色框框的信息换成申请的ipv6协议页面的信息。
+```
+#!/bin/bash
+#这是一段高度简化的配置流程的代码，网站已经很难找得到了，直接复制不要手打。
+touch /var/lock/ipv6hetb
+#Variables
+SERVER_IP4_ADDR="" #Server IP From Hurricane Electric
+CLIENT_IP4_ADDR="" #Your server IPv4 Address
+CLIENT_IP6_ADDR="2001:470:1f06:ac8::2/64" #Client IPv6 Address from Hurricane Electric
+ROUTED_IP6_ADDR="2001:470:1f06:ac8::1/64" #Your Routed IPv6 From Hurricane Electric
+case "$1" in
+start)
+    echo "Starting ipv6hetb "
+    setsid tb_userspace tb $SERVER_IP4_ADDR $CLIENT_IP4_ADDR sit > /dev/null 2>&1 &
+    sleep 3s
+    ifconfig tb up
+    ifconfig tb inet6 add $CLIENT_IP6_ADDR
+    ifconfig tb inet6 add $ROUTED_IP6_ADDR
+    ifconfig tb mtu 1480
+    route -A inet6 add ::/0 dev tb
+    route -A inet6 del ::/0 dev venet0
+    ;;
+stop)
+    echo "Stopping ipv6hetb"
+    ifconfig tb down
+    route -A inet6 del ::/0 dev tb
+    killall tb_userspace
+    ;;
+*)
+    echo "Usage: /etc/init.d/ipv6hetb {start|stop}"
+    exit 1
+    ;;
+esac
+exit 0
+```
 <br>
 ## 授权
 ```
