@@ -82,13 +82,11 @@ gcc tb_userspace.c -l pthread -o tb_userspace
 ```
 这一步编译将会生成tb_userspace二进制文件。
 4.移动tb_userspace到/usr/bin/，授权
-    ```
+```
 mv tb_userspace /usr/bin/
 chmod a+x /usr/bin/tb_userspace
 ```
 5.Vim编辑/etc/init.d/ipv6hetb文件，如果没有就把下列的内容复制进去，将下图的红色框框的信息换成申请的ipv6协议页面的信息。
-<br>
-
 ```
 #!/bin/bash
 #这是一段高度简化的配置流程的代码，网站已经很难找得到了，直接复制不要手打。
