@@ -19,17 +19,15 @@ tags: [apple, Appstore, reject, nginx] # add tag
 ![NAT64+DNS64的访问机制]({{site.baseurl}}/assets/img/apple-reject-ipv6/dns64_nat64.png)
 
 从这里看出审核的关键在于能不能获取一个有效的Server IPv6地址。当苹果公司的APP审核员在进行审核时，由于国内大部分开发者的APPserver没有IPv6地址，只能通过苹果公司自己的NAT64+DNS64服务器进行测试，而最关键的是苹果的服务器不能有效的给APPserver返回一个IPv6地址，这就导致了审核失败，APP被拒。
-
 就国内目前来说审核被拒的主要原因有第三个：
-1、国内大部分APP服务器没有IPv6地址，导致DNS无法解析；
-2、苹果公司的审核环境不能自动将中国APP内URL转换成IPv6可访问的格式，导致访问失败；
-3、由于国际线路带宽严重拥堵等原因造成访问不稳定，失败率高；
+    1、国内大部分APP服务器没有IPv6地址，导致DNS无法解析；
+    2、苹果公司的审核环境不能自动将中国APP内URL转换成IPv6可访问的格式，导致访问失败；
+    3、由于国际线路带宽严重拥堵等原因造成访问不稳定，失败率高；
 
 ## 解决思路
 就目前国内的现状，能够提供这种服务的当属教育网了，中国教育网坐拥全国几百所高校，拥有真实的IPv6骨干网络，国际出口，IPv6资源丰富，服务质量好。
 既然审核被拒是因为IPV6，那么我们就让服务器支持就可以了，但是很多运营商的服务器不提供IPv6地址，这样的话就要使用IPv6隧道技术,通过建立隧道使自己的服务器通过IPv6隧道来支持IPv6,方案示意图如下：
 ![支持IPv6]({{site.baseurl}}/assets/img/apple-reject-ipv6/ipv6_deploy.png)
-
     使用IPv6隧道服务APP服务器必须满足三个条件：
     ① 服务器拥有公网IPv4地址
     ② 服务器支持IPv6协议
@@ -57,8 +55,7 @@ mkdir www
 scp root@ip:/data/svr/playbooks/public/install/nginx-1.10.0.tar.gz .
 tar -zxvf nginx-1.10.0.tar.gz
 cd  nginx-1.10.0
-./configure --user=www\
---group=www --prefix=/usr/local/nginx   --with-http_stub_status_module   --with-http_ssl_module   --with-http_v2_module   --with-http_gzip_static_module   --with-ipv6   --with-http_sub_module
+./configure --user=www --group=www --prefix=/usr/local/nginx   --with-http_stub_status_module   --with-http_ssl_module   --with-http_v2_module   --with-http_gzip_static_module  --with-ipv6   --with-http_sub_module
 Make && make install
 ```
 ## 配置nginx代理转发配置
@@ -73,7 +70,7 @@ IPv6隧道配置。
  
 申请完成后，我们会有一个ipv6地址2001:470:1f06:ac8::2，确认申请了IPv6隧道服务并按照上述模板进行配置完成后，请检查防火墙（iptables）是否放行了6in4协议，并确认(/etc/sysctl.conf)中IPv6转发已打开。
 ## 绑定ipv6域名
-    打开DNS解析网站,添加AAAA记录解决，把上面的ipv6地址添加上去。
+打开DNS解析网站,添加AAAA记录解决，把上面的ipv6地址添加上去。
 	 
 ## 安装ipv6转发软件
 添加ipv6解析了，环境搭建好了，你以为就能访问了吗？少年你真是天真了。我们还差一个类似需要ipv6协议转发器。
@@ -88,41 +85,40 @@ IPv6隧道配置。
     mv tb_userspace /usr/bin/
     chmod a+x /usr/bin/tb_userspace
     5.Vim编辑/etc/init.d/ipv6hetb文件，如果没有就把下列的内容复制进去，将下图的红色框框的信息换成申请的ipv6协议页面的信息。
-
-```
-#!/bin/bash
-#这是一段高度简化的配置流程的代码，网站已经很难找得到了，直接复制不要手打。
-touch /var/lock/ipv6hetb
-#Variables
-SERVER_IP4_ADDR="" #Server IP From Hurricane Electric
-CLIENT_IP4_ADDR="" #Your server IPv4 Address
-CLIENT_IP6_ADDR="2001:470:1f06:ac8::2/64" #Client IPv6 Address from Hurricane Electric
-ROUTED_IP6_ADDR="2001:470:1f06:ac8::1/64" #Your Routed IPv6 From Hurricane Electric
-case "$1" in
-  start)
-    echo "Starting ipv6hetb "
-      setsid tb_userspace tb $SERVER_IP4_ADDR $CLIENT_IP4_ADDR sit > /dev/null 2>&1 &
-      sleep 3s
-      ifconfig tb up
-      ifconfig tb inet6 add $CLIENT_IP6_ADDR
-      ifconfig tb inet6 add $ROUTED_IP6_ADDR
-      ifconfig tb mtu 1480
-      route -A inet6 add ::/0 dev tb
-      route -A inet6 del ::/0 dev venet0
-    ;;
-  stop)
-    echo "Stopping ipv6hetb"
-      ifconfig tb down
-      route -A inet6 del ::/0 dev tb
-      killall tb_userspace
-    ;;
-  *)
-    echo "Usage: /etc/init.d/ipv6hetb {start|stop}"
-    exit 1
-    ;;
-esac
-exit 0
-```
+    ```
+    #!/bin/bash
+    #这是一段高度简化的配置流程的代码，网站已经很难找得到了，直接复制不要手打。
+    touch /var/lock/ipv6hetb
+    #Variables
+    SERVER_IP4_ADDR="" #Server IP From Hurricane Electric
+    CLIENT_IP4_ADDR="" #Your server IPv4 Address
+    CLIENT_IP6_ADDR="2001:470:1f06:ac8::2/64" #Client IPv6 Address from Hurricane Electric
+    ROUTED_IP6_ADDR="2001:470:1f06:ac8::1/64" #Your Routed IPv6 From Hurricane Electric
+    case "$1" in
+    start)
+        echo "Starting ipv6hetb "
+        setsid tb_userspace tb $SERVER_IP4_ADDR $CLIENT_IP4_ADDR sit > /dev/null 2>&1 &
+        sleep 3s
+        ifconfig tb up
+        ifconfig tb inet6 add $CLIENT_IP6_ADDR
+        ifconfig tb inet6 add $ROUTED_IP6_ADDR
+        ifconfig tb mtu 1480
+        route -A inet6 add ::/0 dev tb
+        route -A inet6 del ::/0 dev venet0
+        ;;
+    stop)
+        echo "Stopping ipv6hetb"
+        ifconfig tb down
+        route -A inet6 del ::/0 dev tb
+        killall tb_userspace
+        ;;
+    *)
+        echo "Usage: /etc/init.d/ipv6hetb {start|stop}"
+        exit 1
+        ;;
+    esac
+    exit 0
+    ```
 <br>
 ## 授权
 ```
@@ -132,9 +128,6 @@ chmod a+x /etc/init.d/ipv6hetb
 ## 启动服务器
 ```
 service ipv6hetb start
-```
-<br>
-```
 #使用ifconfig命令进行网卡信息输出
 ifconfig
 ```
