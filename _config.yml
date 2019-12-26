@@ -1,7 +1,7 @@
-title: Hello, world! I'm Scott Wilson
+title: Hello! I'm Scott Wilson
 description: > # this means to ignore newlines until "baseurl:"
   一个野心勃勃的技术，喜欢文学，哲学。
-  
+
 permalink: ':title/'
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://blog.ctolang.com" # the base hostname & protocol for your site, e.g. http://example.com
