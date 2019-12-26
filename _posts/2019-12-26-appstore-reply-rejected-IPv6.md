@@ -155,8 +155,8 @@ ifconfig
 <br>
 
 ## 参考链接
-[认识ipv6和app审核访问机制](http://www.solve6.com)
-[节点配置ipv6地址，搭建思路](https://bbs.aliyun.com/read/299254.html)
-[Nginx代理转发配置](http://blog.csdn.net/faye0412/article/details/75200607)
-[Aliyun服务器配置支持ipv6] (https://blog.csdn.net/EI__Nino/article/details/71331717)
-[配置tunnelbroker.net的IPv6] (https://qiaodahai.com/openvz-virtual-machine-configuration-ipv6-with-tunnelbroker-net.html)
+[认识ipv6和app审核访问机制](http://www.solve6.com).
+[节点配置ipv6地址，搭建思路](https://bbs.aliyun.com/read/299254.html).
+[Nginx代理转发配置](http://blog.csdn.net/faye0412/article/details/75200607).
+[Aliyun服务器配置支持ipv6](https://blog.csdn.net/EI__Nino/article/details/71331717).
+[配置tunnelbroker.net的IPv6](https://qiaodahai.com/openvz-virtual-machine-configuration-ipv6-with-tunnelbroker-net.html).
