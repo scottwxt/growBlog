@@ -29,6 +29,7 @@ tags: [apple, Appstore, reject, nginx] # add tag
 就目前国内的现状，能够提供这种服务的当属教育网了，中国教育网坐拥全国几百所高校，拥有真实的IPv6骨干网络，国际出口，IPv6资源丰富，服务质量好。
 既然审核被拒是因为IPV6，那么我们就让服务器支持就可以了，但是很多运营商的服务器不提供IPv6地址，这样的话就要使用IPv6隧道技术,通过建立隧道使自己的服务器通过IPv6隧道来支持IPv6,方案示意图如下：
 ![支持IPv6]({{site.baseurl}}/assets/img/apple-reject-ipv6/ipv6_deploy.png)
+
     使用IPv6隧道服务APP服务器必须满足三个条件：
     ① 服务器拥有公网IPv4地址
     ② 服务器支持IPv6协议
