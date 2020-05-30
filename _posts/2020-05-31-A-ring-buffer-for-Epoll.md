@@ -7,9 +7,6 @@ img: epoll/epoll_API.png # Add image post (optional)
 tags: [Epoll, Linux, Kernel] # add tag
 ---
 # Epoll环形缓冲区
-##### 原作: Jonathan CorbetMay 30, 2019
-##### 翻译: scott wilson 30, 2020
-原文链接: [https://lwn.net/Articles/789603](https://lwn.net/Articles/789603)
 ## 概述
 &emsp;&emsp;epoll为了使轮询I/O事件更加具有扩展性，协同地使用了一系列的系统调用。为此，它必须最小化使用每一个系统调用并且返回多个事件，所以调用数量也必须是最小化的。但是他的扩展性诉求并没有满足一些用户。Roman Penyaev从一系列的补丁看到此问题，并提出自己的解决方案:给内核增加另外一个环形缓冲区(ring-buffer)。
 <br />
@@ -66,3 +63,9 @@ struct epoll_uitem {
 &emsp;&emsp;弄清楚上面的接口需要进行大量的代码反向工程。这是一个相当复杂的新API，但是几乎没有文档记录。这将使它难以使用，但是缺乏文档也使得一开始很难审查API。令人怀疑的是，作者以外的任何人目前都没有编写任何代码来使用此API。开发社区在承诺使用此API之前是否会完全理解该API尚不清楚。
 <br />
 &emsp;&emsp;不过，也许最可悲的是，这将是内核中许多环形缓冲区接口中的另一个接口。其他包括perf事件，ftrace，io_uring，AF_XDP以及毫无疑问的其他立即出现的事件。这些接口中的每一个都是从头开始创建的，用户空间开发人员必须分别理解（并实现消费者）。如果内核为用户空间共享的环形缓冲区定义了一套标准，而不是每次都创建新的东西，这会很好吗？不能责怪当前补丁集失败。那艘船是前一段时间航行的。但这确实说明了如何设计Linux内核API的一个缺点。他们似乎注定永远无法融入一个连贯一致的整体。
+
+#
+
+##### 原作: Jonathan CorbetMay 30, 2019
+##### 翻译: scott wilson 30, 2020
+原文链接: [https://lwn.net/Articles/789603](https://lwn.net/Articles/789603)
