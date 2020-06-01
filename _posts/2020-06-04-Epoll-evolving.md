@@ -3,7 +3,7 @@ layout: post
 title: 不断发展的Epoll
 date: 2020-06-01 00:00:00 +0300
 description: epoll为了使轮询I/O事件更加具有扩展性，协同地使用了一系列的系统调用。为此，它必须最小化使用每一个系统调用并且返回多个事件，所以调用数量也必须是最小化的。但是他的扩展性诉求并没有满足一些用户。Roman Penyaev从一系列的补丁看到此问题，并提出自己的解决方案:给内核增加另外一个环形缓冲区(ring-buffer) # Add post description (optional)
-img: epoll/epoll_API.png # Add image post (optional)
+img: epoll/epoll_evolving.jpeg # Add image post (optional)
 tags: [Epoll, Linux, Kernel, System Call] # add tag
 ---
 ## 概述
@@ -34,7 +34,7 @@ tags: [Epoll, Linux, Kernel, System Call] # add tag
 epoll_wait()返回存储在events数组中最大数量，
 timeout参数具体到毫秒，epoll_pwait()版本在调用时候也能允许设置阻塞与非阻塞标记，最后，请查看the man page可以找到相关细节。
 
-## epoll_ctl_batch() and epoll_pwait1()
+## epoll_ctl_batch()和epoll_pwait1()
 Fam Zheng提供的补丁集为Epoll引入了两个新的系统调用，第一个解决了需要更新epoll集合中的文件描述符的问题，调用epoll_ctl()只能对单个文件描述符进行添加，修改、删除，如果多个描述符需要更新，则需要多次调用epoll_ctl()才能完成工作。提议中的epoll_ctl_batch()解决单个调用就能处理多个描述符的问题。
 ```
     int epoll_ctl_batch(int epfd, int flags, int ncmds, struct epoll_ctl_cmd *cmds);
