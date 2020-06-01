@@ -3,7 +3,7 @@ layout: post
 title: 不断发展的Epoll
 date: 2020-06-01 00:00:00 +0300
 description: epoll为了使轮询I/O事件更加具有扩展性，协同地使用了一系列的系统调用。为此，它必须最小化使用每一个系统调用并且返回多个事件，所以调用数量也必须是最小化的。但是他的扩展性诉求并没有满足一些用户。Roman Penyaev从一系列的补丁看到此问题，并提出自己的解决方案:给内核增加另外一个环形缓冲区(ring-buffer) # Add post description (optional)
-img: epoll/epoll_evolving.jpeg # Add image post (optional)
+img: epoll/epoll_evolving.jpg # Add image post (optional)
 tags: [Epoll, Linux, Kernel, System Call] # add tag
 ---
 ## 概述
